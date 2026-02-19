@@ -1,0 +1,3252 @@
+{
+  "database": {
+    "path": "data/news_archive.db"
+  },
+  "storage": {
+    "images_dir": "data/images",
+    "snapshots_dir": "data/snapshots"
+  },
+  "cutoff_date": "2021-01-01",
+  "scraping": {
+    "default_interval_minutes": 30,
+    "request_timeout_ms": 60000,
+    "max_concurrent_sites": 3,
+    "max_retries": 3,
+    "retry_delay_seconds": 10,
+    "jitter_range_seconds": [
+      5,
+      30
+    ],
+    "rate_limit_per_domain_seconds": 5,
+    "batch_size": 50
+  },
+  "antidetect": {
+    "rotate_user_agents": true,
+    "randomize_viewport": true,
+    "jitter_range_seconds": [
+      3,
+      15
+    ]
+  },
+  "sites": [
+    {
+      "name": "Record Searchlight",
+      "slug": "record-searchlight",
+      "base_url": "https://www.redding.com",
+      "category": "north_state",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "google_news_rss",
+          "homepage_scrape",
+          "sitemap",
+          "wayback"
+        ],
+        "sitemap_urls": [
+          "https://www.redding.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://news.google.com/rss/search?q=site:redding.com&hl=en-US&gl=US&ceid=US:en"
+        ],
+        "front_page_urls": [
+          "https://www.redding.com/",
+          "https://www.redding.com/news/",
+          "https://www.redding.com/news/local/"
+        ],
+        "article_url_patterns": [
+          "/story/news/",
+          "/story/opinion/",
+          "/story/entertainment/",
+          "/story/sports/"
+        ],
+        "exclude_url_patterns": [
+          "/picture-gallery/",
+          "/videos/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://www.redding.com/story/",
+          "max_pages": 50
+        },
+        "google_news_domain": "redding.com",
+        "bypass_paywall": true
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1[data-testid='headline']",
+            "h1.gnt_ar_hl",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            "a[data-testid='author-name']",
+            ".gnt_ar_by_a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            ".gnt_ar_dt",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            "article .gnt_ar_b",
+            "article [data-testid='article-body']",
+            "article"
+          ],
+          "category": [
+            ".gnt_ar_sby a",
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            ".gnt_ar_tg a",
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait"
+      },
+      "check_interval_minutes": 20,
+      "url": "https://www.redding.com"
+    },
+    {
+      "name": "Shasta Scout",
+      "slug": "shasta-scout",
+      "base_url": "https://shastascout.org",
+      "category": "north_state",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page",
+          "archive_pages",
+          "wayback"
+        ],
+        "sitemap_urls": [
+          "https://shastascout.org/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://shastascout.org/feed/"
+        ],
+        "front_page_urls": [
+          "https://shastascout.org/"
+        ],
+        "article_url_patterns": [
+          "/news/",
+          "/opinion/",
+          "/deep-dive/"
+        ],
+        "exclude_url_patterns": [
+          "/about",
+          "/subscribe",
+          "/archive"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://shastascout.org/",
+          "max_pages": 20
+        },
+        "bypass_paywall": true
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.post-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".author-name",
+            ".byline-names a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            ".post-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false,
+        "strategy": "none"
+      },
+      "check_interval_minutes": 30,
+      "url": "https://shastascout.org"
+    },
+    {
+      "name": "Common Dreams",
+      "slug": "common-dreams",
+      "base_url": "https://www.commondreams.org",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page",
+          "wayback"
+        ],
+        "sitemap_urls": [
+          "https://www.commondreams.org/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.commondreams.org/feeds/feed.rss"
+        ],
+        "front_page_urls": [
+          "https://www.commondreams.org/",
+          "https://www.commondreams.org/news"
+        ],
+        "article_url_patterns": [
+          "/news/",
+          "/opinion/",
+          "/views/"
+        ],
+        "exclude_url_patterns": [
+          "/tag/",
+          "/author/",
+          "/about"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://www.commondreams.org/news/",
+          "max_pages": 50
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.page-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".author-name a",
+            ".field--name-field-author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".field--name-body",
+            "article .node__content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']",
+            ".field--name-field-section a"
+          ],
+          "tags": [
+            "meta[property='article:tag']",
+            ".field--name-field-tags a"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 30
+    },
+    {
+      "name": "Portside",
+      "slug": "portside",
+      "base_url": "https://portside.org",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://portside.org/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://portside.org/rss.xml"
+        ],
+        "front_page_urls": [
+          "https://portside.org/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/user/",
+          "/taxonomy/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.page-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".field--name-field-author",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".field--name-body",
+            "article .content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']",
+            ".field--name-field-tags a"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 60
+    },
+    {
+      "name": "ZNetwork",
+      "slug": "znetwork",
+      "base_url": "https://znetwork.org",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://znetwork.org/sitemap_index.xml"
+        ],
+        "rss_urls": [
+          "https://znetwork.org/feed/"
+        ],
+        "front_page_urls": [
+          "https://znetwork.org/"
+        ],
+        "article_url_patterns": [
+          "/znetarticle/",
+          "/zcommentary/"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/category/",
+          "/tag/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".entry-author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            "article .post-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']",
+            ".entry-tags a"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 60
+    },
+    {
+      "name": "Grist",
+      "slug": "grist",
+      "base_url": "https://grist.org",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://grist.org/sitemap_index.xml"
+        ],
+        "rss_urls": [
+          "https://grist.org/feed/"
+        ],
+        "front_page_urls": [
+          "https://grist.org/",
+          "https://grist.org/politics/"
+        ],
+        "article_url_patterns": [
+          "/article/",
+          "/politics/",
+          "/climate-energy/",
+          "/equity/"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/series/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".article-header h1",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".article-author a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".article-body",
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 45
+    },
+    {
+      "name": "Scheerpost",
+      "slug": "scheerpost",
+      "base_url": "https://scheerpost.com",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://scheerpost.com/sitemap_index.xml"
+        ],
+        "rss_urls": [
+          "https://scheerpost.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://scheerpost.com/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/category/",
+          "/tag/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".entry-author a",
+            ".author.vcard a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            ".post-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 60
+    },
+    {
+      "name": "Nation of Change",
+      "slug": "nation-of-change",
+      "base_url": "https://www.nationofchange.org",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.nationofchange.org/sitemap_index.xml"
+        ],
+        "rss_urls": [
+          "https://www.nationofchange.org/feed/"
+        ],
+        "front_page_urls": [
+          "https://www.nationofchange.org/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/category/",
+          "/tag/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".entry-author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            ".post-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 60
+    },
+    {
+      "name": "LA Progressive",
+      "slug": "la-progressive",
+      "base_url": "https://www.laprogressive.com",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.laprogressive.com/sitemap_index.xml"
+        ],
+        "rss_urls": [
+          "https://www.laprogressive.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://www.laprogressive.com/"
+        ],
+        "article_url_patterns": [
+          "/20",
+          "/progressive-"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/category/",
+          "/tag/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".entry-author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            ".post-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 60
+    },
+    {
+      "name": "The Nation",
+      "slug": "the-nation",
+      "base_url": "https://www.thenation.com",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.thenation.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.thenation.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://www.thenation.com/",
+          "https://www.thenation.com/politics/"
+        ],
+        "article_url_patterns": [
+          "/article/"
+        ],
+        "exclude_url_patterns": [
+          "/authors/",
+          "/subject/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://www.thenation.com/article/",
+          "max_pages": 50
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.article-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".article-header__byline a",
+            ".author-name a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".article-body-inner",
+            ".article-body",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait"
+      },
+      "check_interval_minutes": 30
+    },
+    {
+      "name": "Mother Jones",
+      "slug": "mother-jones",
+      "base_url": "https://www.motherjones.com",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.motherjones.com/sitemap_index.xml"
+        ],
+        "rss_urls": [
+          "https://www.motherjones.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://www.motherjones.com/",
+          "https://www.motherjones.com/politics/"
+        ],
+        "article_url_patterns": [
+          "/politics/",
+          "/environment/",
+          "/crime-justice/"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/topics/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://www.motherjones.com/politics/",
+          "max_pages": 50
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".byline a",
+            ".author-name a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            ".article-body",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 30
+    },
+    {
+      "name": "Jacobin",
+      "slug": "jacobin",
+      "base_url": "https://jacobin.com",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://jacobin.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://jacobin.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://jacobin.com/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/category/",
+          "/series/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://jacobin.com/20",
+          "max_pages": 40
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.article-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".article-author a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".article-body",
+            ".post-body",
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait"
+      },
+      "check_interval_minutes": 45
+    },
+    {
+      "name": "The Intercept",
+      "slug": "the-intercept",
+      "base_url": "https://theintercept.com",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://theintercept.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://theintercept.com/feed/?rss"
+        ],
+        "front_page_urls": [
+          "https://theintercept.com/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/staff/",
+          "/series/",
+          "/podcasts/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://theintercept.com/20",
+          "max_pages": 50
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.Post-title",
+            "h1.article-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".Post-byline a",
+            ".article-byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".Post-body",
+            ".article-body",
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']",
+            ".Post-tags a"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 30
+    },
+    {
+      "name": "Democracy Now",
+      "slug": "democracy-now",
+      "base_url": "https://www.democracynow.org",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.democracynow.org/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.democracynow.org/democracynow.rss"
+        ],
+        "front_page_urls": [
+          "https://www.democracynow.org/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/about",
+          "/contact",
+          "/donate"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://www.democracynow.org/20",
+          "max_pages": 50
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".story-headline h1",
+            "article h1",
+            ".headline",
+            "h1"
+          ],
+          "byline": [
+            ".story-byline",
+            ".author-name",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".story-text",
+            ".story-summary",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']",
+            ".story-tags a"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 30
+    },
+    {
+      "name": "ProPublica",
+      "slug": "propublica",
+      "base_url": "https://www.propublica.org",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.propublica.org/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.propublica.org/feeds/propublica/main"
+        ],
+        "front_page_urls": [
+          "https://www.propublica.org/"
+        ],
+        "article_url_patterns": [
+          "/article/"
+        ],
+        "exclude_url_patterns": [
+          "/people/",
+          "/series/",
+          "/topics/",
+          "/data/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://www.propublica.org/article/",
+          "max_pages": 50
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.hed",
+            "h1.article-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".byline a",
+            ".author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".article-body",
+            ".body-copy",
+            ".story-body",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 30
+    },
+    {
+      "name": "Truthout",
+      "slug": "truthout",
+      "base_url": "https://truthout.org",
+      "category": "progressive",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://truthout.org/sitemap_index.xml"
+        ],
+        "rss_urls": [
+          "https://truthout.org/feed/"
+        ],
+        "front_page_urls": [
+          "https://truthout.org/"
+        ],
+        "article_url_patterns": [
+          "/articles/"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/category/",
+          "/tag/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://truthout.org/articles/",
+          "max_pages": 40
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".entry-author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            ".post-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 45
+    },
+    {
+      "name": "Associated Press",
+      "slug": "ap-news",
+      "base_url": "https://apnews.com",
+      "category": "mainstream_national",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://apnews.com/sitemap.xml"
+        ],
+        "rss_urls": [],
+        "front_page_urls": [
+          "https://apnews.com/",
+          "https://apnews.com/politics",
+          "https://apnews.com/us-news"
+        ],
+        "article_url_patterns": [
+          "/article/"
+        ],
+        "exclude_url_patterns": [
+          "/hub/",
+          "/video/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://apnews.com/article/",
+          "max_pages": 50
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1[data-key='card-headline']",
+            "h1.Page-headline",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".Page-authors a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']",
+            "bsp-timestamp"
+          ],
+          "article_body": [
+            ".RichTextStoryBody",
+            ".Article .RichTextBody",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 15
+    },
+    {
+      "name": "Reuters",
+      "slug": "reuters",
+      "base_url": "https://www.reuters.com",
+      "category": "mainstream_national",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.reuters.com/arc/outboundfeeds/sitemap-index/?outputType=xml"
+        ],
+        "rss_urls": [],
+        "front_page_urls": [
+          "https://www.reuters.com/",
+          "https://www.reuters.com/world/us/"
+        ],
+        "article_url_patterns": [
+          "/world/",
+          "/business/",
+          "/legal/",
+          "/sustainability/"
+        ],
+        "exclude_url_patterns": [
+          "/video/",
+          "/pictures/",
+          "/graphics/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://www.reuters.com/",
+          "max_pages": 50
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1[data-testid='Heading']",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            "a[data-testid='AuthorName']",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            "[data-testid='paragraph']",
+            ".article-body__content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 15
+    },
+    {
+      "name": "NPR",
+      "slug": "npr",
+      "base_url": "https://www.npr.org",
+      "category": "mainstream_national",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.npr.org/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://feeds.npr.org/1001/rss.xml"
+        ],
+        "front_page_urls": [
+          "https://www.npr.org/",
+          "https://www.npr.org/sections/politics/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/podcasts/",
+          "/programs/",
+          "/music/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://www.npr.org/20",
+          "max_pages": 50
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.story-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".byline__name a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".storytext",
+            "#storytext",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 20
+    },
+    {
+      "name": "PBS NewsHour",
+      "slug": "pbs-newshour",
+      "base_url": "https://www.pbs.org/newshour",
+      "category": "mainstream_national",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.pbs.org/newshour/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.pbs.org/newshour/feeds/rss/headlines"
+        ],
+        "front_page_urls": [
+          "https://www.pbs.org/newshour/",
+          "https://www.pbs.org/newshour/politics"
+        ],
+        "article_url_patterns": [
+          "/newshour/nation/",
+          "/newshour/politics/",
+          "/newshour/economy/",
+          "/newshour/world/",
+          "/newshour/show/"
+        ],
+        "exclude_url_patterns": [
+          "/newshour/tag/",
+          "/newshour/author/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".post__title h1",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".post__byline a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".post__body",
+            ".body-text",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 20
+    },
+    {
+      "name": "New York Times",
+      "slug": "nyt",
+      "base_url": "https://www.nytimes.com",
+      "category": "mainstream_national",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.nytimes.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+          "https://rss.nytimes.com/services/xml/rss/nyt/Politics.xml"
+        ],
+        "front_page_urls": [
+          "https://www.nytimes.com/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/video/",
+          "/interactive/",
+          "/crosswords/",
+          "/wirecutter/",
+          "/athletic/"
+        ],
+        "bypass_paywall": true
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1[data-testid='headline']",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            "p[class*='byline'] a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            "section[name='articleBody']",
+            "article .meteredContent",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait",
+        "notes": "Hard paywall \u2014 preview only"
+      },
+      "check_interval_minutes": 15
+    },
+    {
+      "name": "Washington Post",
+      "slug": "washington-post",
+      "base_url": "https://www.washingtonpost.com",
+      "category": "mainstream_national",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.washingtonpost.com/sitemap_index.xml"
+        ],
+        "rss_urls": [
+          "https://feeds.washingtonpost.com/rss/politics",
+          "https://feeds.washingtonpost.com/rss/national"
+        ],
+        "front_page_urls": [
+          "https://www.washingtonpost.com/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/video/",
+          "/photography/",
+          "/podcasts/"
+        ],
+        "bypass_paywall": true
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1#main-content",
+            "h1[data-qa='headline']",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".byline a",
+            ".author-name a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".article-body",
+            ".teaser-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait"
+      },
+      "check_interval_minutes": 15
+    },
+    {
+      "name": "Wall Street Journal",
+      "slug": "wsj",
+      "base_url": "https://www.wsj.com",
+      "category": "mainstream_national",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.wsj.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://feeds.a.dj.com/rss/RSSWorldNews.xml"
+        ],
+        "front_page_urls": [
+          "https://www.wsj.com/"
+        ],
+        "article_url_patterns": [
+          "/articles/",
+          "/politics/",
+          "/economy/"
+        ],
+        "exclude_url_patterns": [
+          "/video/",
+          "/podcasts/",
+          "/livecoverage/"
+        ],
+        "bypass_paywall": true
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.wsj-article-headline",
+            "h1[class*='StyledHeadline']",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".byline a",
+            ".author-name",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".article-content",
+            ".wsj-snippet-body",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait",
+        "notes": "Hard paywall"
+      },
+      "check_interval_minutes": 20
+    },
+    {
+      "name": "BBC News",
+      "slug": "bbc-news",
+      "base_url": "https://www.bbc.com/news",
+      "category": "mainstream_national",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.bbc.com/sitemaps/https-sitemap-com-news-1.xml"
+        ],
+        "rss_urls": [
+          "https://feeds.bbci.co.uk/news/rss.xml",
+          "https://feeds.bbci.co.uk/news/world/us_and_canada/rss.xml"
+        ],
+        "front_page_urls": [
+          "https://www.bbc.com/news",
+          "https://www.bbc.com/news/us-canada"
+        ],
+        "article_url_patterns": [
+          "/news/articles/",
+          "/news/world-us-canada-"
+        ],
+        "exclude_url_patterns": [
+          "/news/live/",
+          "/news/av/",
+          "/sounds/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1#main-heading",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            "[data-testid='byline-name']",
+            ".byline__name",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            "article [data-component='text-block']",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 15
+    },
+    {
+      "name": "Los Angeles Times",
+      "slug": "la-times",
+      "base_url": "https://www.latimes.com",
+      "category": "california_state",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.latimes.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.latimes.com/politics/rss2.0.xml",
+          "https://www.latimes.com/california/rss2.0.xml"
+        ],
+        "front_page_urls": [
+          "https://www.latimes.com/",
+          "https://www.latimes.com/california"
+        ],
+        "article_url_patterns": [
+          "/story/"
+        ],
+        "exclude_url_patterns": [
+          "/video/",
+          "/photo-gallery/"
+        ],
+        "bypass_paywall": true
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.headline",
+            "h1.title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".author-name a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".page-article-body",
+            ".rich-text-article-body",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait"
+      },
+      "check_interval_minutes": 20
+    },
+    {
+      "name": "San Francisco Chronicle",
+      "slug": "sf-chronicle",
+      "base_url": "https://www.sfchronicle.com",
+      "category": "california_state",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.sfchronicle.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.sfchronicle.com/rss/feed/News-702.php"
+        ],
+        "front_page_urls": [
+          "https://www.sfchronicle.com/",
+          "https://www.sfchronicle.com/politics/"
+        ],
+        "article_url_patterns": [
+          "/article/",
+          "/bayarea/"
+        ],
+        "exclude_url_patterns": [
+          "/slideshow/",
+          "/author/"
+        ],
+        "bypass_paywall": true
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.headline",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".author a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".article-body",
+            ".body-description",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait",
+        "notes": "Hearst paywall"
+      },
+      "check_interval_minutes": 25
+    },
+    {
+      "name": "Sacramento Bee",
+      "slug": "sacramento-bee",
+      "base_url": "https://www.sacbee.com",
+      "category": "california_state",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.sacbee.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.sacbee.com/news/politics-government/capitol-alert/index.rss"
+        ],
+        "front_page_urls": [
+          "https://www.sacbee.com/",
+          "https://www.sacbee.com/news/politics-government/"
+        ],
+        "article_url_patterns": [
+          "/article"
+        ],
+        "exclude_url_patterns": [
+          "/video/",
+          "/gallery/"
+        ],
+        "bypass_paywall": true
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.h1",
+            "h1.headline",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".author a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".article-body",
+            ".story-body",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait",
+        "notes": "McClatchy paywall"
+      },
+      "check_interval_minutes": 25
+    },
+    {
+      "name": "CalMatters",
+      "slug": "calmatters",
+      "base_url": "https://calmatters.org",
+      "category": "california_state",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://calmatters.org/sitemap_index.xml"
+        ],
+        "rss_urls": [
+          "https://calmatters.org/feed/"
+        ],
+        "front_page_urls": [
+          "https://calmatters.org/",
+          "https://calmatters.org/politics/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/category/",
+          "/tag/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".entry-author a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            ".article-body",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 30
+    },
+    {
+      "name": "KQED",
+      "slug": "kqed",
+      "base_url": "https://www.kqed.org",
+      "category": "california_state",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.kqed.org/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.kqed.org/news/feed"
+        ],
+        "front_page_urls": [
+          "https://www.kqed.org/news"
+        ],
+        "article_url_patterns": [
+          "/news/"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/topic/",
+          "/podcasts/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".post-title h1",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".post-author a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".post-body",
+            ".article-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 25
+    },
+    {
+      "name": "CapRadio",
+      "slug": "capradio",
+      "base_url": "https://www.capradio.org",
+      "category": "california_state",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "front_page"
+        ],
+        "rss_urls": [
+          "https://www.capradio.org/feed/rss/news/"
+        ],
+        "front_page_urls": [
+          "https://www.capradio.org/news/"
+        ],
+        "article_url_patterns": [
+          "/articles/",
+          "/news/"
+        ],
+        "exclude_url_patterns": [
+          "/shows/",
+          "/about/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".article-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".article-byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".article-body",
+            ".rich-text",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 45
+    },
+    {
+      "name": "Marin Independent Journal",
+      "slug": "marin-ij",
+      "base_url": "https://www.marinij.com",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.marinij.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.marinij.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://www.marinij.com/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/tag/",
+          "/sponsor-content/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://www.marinij.com/20",
+          "max_pages": 40
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".author-name a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            ".article-body",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait",
+        "notes": "MediaNews Group"
+      },
+      "check_interval_minutes": 30
+    },
+    {
+      "name": "The Press Democrat",
+      "slug": "press-democrat",
+      "base_url": "https://www.pressdemocrat.com",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.pressdemocrat.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.pressdemocrat.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://www.pressdemocrat.com/"
+        ],
+        "article_url_patterns": [
+          "/article/"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/tag/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".headline h1",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".author-name a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".article-body",
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait"
+      },
+      "check_interval_minutes": 30
+    },
+    {
+      "name": "Sonoma Index-Tribune",
+      "slug": "sonoma-index-tribune",
+      "base_url": "https://www.sonomanews.com",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.sonomanews.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.sonomanews.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://www.sonomanews.com/"
+        ],
+        "article_url_patterns": [
+          "/article/"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/tag/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".headline h1",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".author-name a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".article-body",
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait"
+      },
+      "check_interval_minutes": 45
+    },
+    {
+      "name": "Petaluma Argus-Courier",
+      "slug": "petaluma-argus-courier",
+      "base_url": "https://www.petaluma360.com",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.petaluma360.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.petaluma360.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://www.petaluma360.com/"
+        ],
+        "article_url_patterns": [
+          "/article/"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/tag/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".headline h1",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".author-name a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".article-body",
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait"
+      },
+      "check_interval_minutes": 60
+    },
+    {
+      "name": "NorCal Public Media",
+      "slug": "norcal-public-media",
+      "base_url": "https://norcalpublicmedia.org",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "front_page"
+        ],
+        "rss_urls": [
+          "https://norcalpublicmedia.org/feed/"
+        ],
+        "front_page_urls": [
+          "https://norcalpublicmedia.org/"
+        ],
+        "article_url_patterns": [
+          "/20",
+          "/news/"
+        ],
+        "exclude_url_patterns": [
+          "/about/",
+          "/schedule/",
+          "/donate/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".entry-author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 120
+    },
+    {
+      "name": "The Mendocino Voice",
+      "slug": "mendocino-voice",
+      "base_url": "https://mendovoice.com",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://mendovoice.com/sitemap_index.xml"
+        ],
+        "rss_urls": [
+          "https://mendovoice.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://mendovoice.com/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/category/",
+          "/tag/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://mendovoice.com/20",
+          "max_pages": 30
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".entry-author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 45
+    },
+    {
+      "name": "Ukiah Daily Journal",
+      "slug": "ukiah-daily-journal",
+      "base_url": "https://www.ukiahdailyjournal.com",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.ukiahdailyjournal.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.ukiahdailyjournal.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://www.ukiahdailyjournal.com/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/tag/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".author-name a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            ".article-body",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait",
+        "notes": "MediaNews Group"
+      },
+      "check_interval_minutes": 45
+    },
+    {
+      "name": "KZYX Public Radio",
+      "slug": "kzyx",
+      "base_url": "https://www.kzyx.org",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "front_page"
+        ],
+        "rss_urls": [
+          "https://www.kzyx.org/feed/"
+        ],
+        "front_page_urls": [
+          "https://www.kzyx.org/"
+        ],
+        "article_url_patterns": [
+          "/20",
+          "/local-news/",
+          "/news/"
+        ],
+        "exclude_url_patterns": [
+          "/shows/",
+          "/about/",
+          "/schedule/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 120
+    },
+    {
+      "name": "Lost Coast Outpost",
+      "slug": "lost-coast-outpost",
+      "base_url": "https://lostcoastoutpost.com",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "front_page"
+        ],
+        "rss_urls": [
+          "https://lostcoastoutpost.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://lostcoastoutpost.com/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/tag/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://lostcoastoutpost.com/20",
+          "max_pages": 40
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "article h1",
+            "h1.title",
+            "h1"
+          ],
+          "byline": [
+            ".byline a",
+            ".author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            ".story-body",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 30
+    },
+    {
+      "name": "North Coast Journal",
+      "slug": "north-coast-journal",
+      "base_url": "https://www.northcoastjournal.com",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.northcoastjournal.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.northcoastjournal.com/humboldt/Rss.xml"
+        ],
+        "front_page_urls": [
+          "https://www.northcoastjournal.com/"
+        ],
+        "article_url_patterns": [
+          "/humboldt/"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/events/",
+          "/locations/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.headline",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".byline a",
+            ".author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".story-body",
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 45
+    },
+    {
+      "name": "Times-Standard",
+      "slug": "times-standard",
+      "base_url": "https://www.times-standard.com",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://www.times-standard.com/sitemap.xml"
+        ],
+        "rss_urls": [
+          "https://www.times-standard.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://www.times-standard.com/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/tag/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            "h1.entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".author-name a",
+            ".byline a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            ".article-body",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": true,
+        "strategy": "playwright_wait",
+        "notes": "MediaNews Group"
+      },
+      "check_interval_minutes": 45
+    },
+    {
+      "name": "Redheaded Blackbelt",
+      "slug": "redheaded-blackbelt",
+      "base_url": "https://kymkemp.com",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "sitemap",
+          "front_page"
+        ],
+        "sitemap_urls": [
+          "https://kymkemp.com/sitemap_index.xml"
+        ],
+        "rss_urls": [
+          "https://kymkemp.com/feed/"
+        ],
+        "front_page_urls": [
+          "https://kymkemp.com/"
+        ],
+        "article_url_patterns": [
+          "/20"
+        ],
+        "exclude_url_patterns": [
+          "/author/",
+          "/category/",
+          "/tag/"
+        ],
+        "wayback": {
+          "enabled": true,
+          "match_prefix": "https://kymkemp.com/20",
+          "max_pages": 40
+        }
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".entry-author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 30
+    },
+    {
+      "name": "KMUD Community Radio",
+      "slug": "kmud",
+      "base_url": "https://kmud.org",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "front_page"
+        ],
+        "rss_urls": [
+          "https://kmud.org/feed/"
+        ],
+        "front_page_urls": [
+          "https://kmud.org/"
+        ],
+        "article_url_patterns": [
+          "/20",
+          "/news/"
+        ],
+        "exclude_url_patterns": [
+          "/shows/",
+          "/about/",
+          "/schedule/",
+          "/donate/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".entry-author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 120
+    },
+    {
+      "name": "Redwood Voice",
+      "slug": "redwood-voice",
+      "base_url": "https://www.redwoodvoice.org",
+      "category": "ca02_local",
+      "enabled": true,
+      "discovery": {
+        "methods": [
+          "rss",
+          "front_page"
+        ],
+        "rss_urls": [
+          "https://www.redwoodvoice.org/feed/"
+        ],
+        "front_page_urls": [
+          "https://www.redwoodvoice.org/"
+        ],
+        "article_url_patterns": [
+          "/20",
+          "/news/",
+          "/stories/"
+        ],
+        "exclude_url_patterns": [
+          "/about/",
+          "/contact/"
+        ]
+      },
+      "parsing": {
+        "strategies": [
+          "structured_data",
+          "og_meta",
+          "dom_selectors",
+          "heuristic"
+        ],
+        "selectors": {
+          "headline": [
+            ".entry-title",
+            "article h1",
+            "h1"
+          ],
+          "byline": [
+            ".entry-author a",
+            "a[rel='author']"
+          ],
+          "publish_date": [
+            "time[datetime]",
+            "meta[property='article:published_time']"
+          ],
+          "article_body": [
+            ".entry-content",
+            "article"
+          ],
+          "category": [
+            "meta[property='article:section']"
+          ],
+          "tags": [
+            "meta[property='article:tag']"
+          ]
+        }
+      },
+      "paywall": {
+        "likely_paywalled": false
+      },
+      "check_interval_minutes": 120
+    },
+    {
+      "name": "Trinity Journal",
+      "slug": "trinity-journal",
+      "base_url": "https://www.facebook.com/thetrinityjournal/",
+      "category": "ca02_local",
+      "enabled": false,
+      "_notes": "Facebook-only presence \u2014 use your existing Facebook page monitor tool instead of the news archiver for this source."
+    }
+  ]
+}
