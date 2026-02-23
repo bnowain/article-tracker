@@ -86,6 +86,9 @@ This project is a spoke in the **Atlas** hub-and-spoke ecosystem. Atlas is a cen
 3. Suggest API endpoint changes in other spokes if they would improve integration, but never write code in another project without explicit approval.
 4. This app must remain **independently functional** — it works on its own without Atlas or any other spoke.
 5. **No spoke-to-spoke dependencies.** All cross-app communication goes through Atlas.
+   **Approved exceptions** (documented peer service calls):
+   - `Shasta-PRA-Backup → civic_media POST /api/transcribe` — Transcription-as-a-Service
+   New cross-spoke calls must be approved and added to this exception list.
 6. If modifying or removing an API endpoint that Atlas may depend on, **stop and warn** before proceeding.
 7. New endpoints added for Atlas integration should be general-purpose and useful standalone, not tightly coupled to Atlas internals.
 
@@ -95,3 +98,16 @@ This project is a spoke in the **Atlas** hub-and-spoke ecosystem. Atlas is a cen
 - **article-tracker** — local news aggregation and monitoring (this project)
 - **Shasta-DB** — civic media archive browser and metadata editor (FastAPI/HTMX)
 - **Facebook-Offline** — local personal Facebook archive for LLM querying (private, local only)
+- **Shasta-PRA-Backup** — public records requests browser
+- **Shasta-Campaign-Finance** — campaign finance disclosures from NetFile
+- **Facebook-Monitor** — automated public Facebook page monitoring
+
+## Master Schema Reference
+
+**`E:\0-Automated-Apps\MASTER_SCHEMA.md`** contains the canonical cross-project
+database schema. If you add, remove, or modify any database tables or fields in
+this project, **you must update the Master Schema** to keep it in sync. The agent
+is authorized and encouraged to edit that file directly.
+
+**`E:\0-Automated-Apps\MASTER_PROJECT.md`** describes the overall ecosystem
+architecture and how all projects interconnect.
