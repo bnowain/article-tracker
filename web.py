@@ -553,6 +553,23 @@ def api_stats():
     return jsonify(db.get_stats())
 
 
+@app.route("/api/health")
+def api_health():
+    return jsonify({"status": "ok"})
+
+
+@app.route("/api/system/shutdown", methods=["POST"])
+def api_shutdown():
+    import threading, os, logging
+    logging.getLogger(__name__).info("Shutdown requested, exiting in 500ms")
+    def _exit_soon():
+        import time
+        time.sleep(0.5)
+        os._exit(0)
+    threading.Thread(target=_exit_soon, daemon=True).start()
+    return jsonify({"status": "shutting_down", "killed": []})
+
+
 # ── Main ──────────────────────────────────────────────────────────────
 
 if __name__ == "__main__":

@@ -143,6 +143,14 @@ pytest tests/ -v -k "api"
 4. **Article detail**: clicking article shows full text with images
 5. **Fetch pipeline**: `run.py` fetches and stores new articles (integration test)
 
+### Lazy ChromaDB Sync (Atlas RAG)
+Atlas maintains a centralized ChromaDB vector store. This project does NOT need its
+own vector DB. Atlas fetches candidate records from this spoke's search API, chunks
+deterministically, validates against ChromaDB cache, and embeds only new/stale chunks.
+ChromaDB is a cache — this spoke's SQLite DB is the source of truth.
+
+See: `Atlas/app/services/rag/deterministic_chunking.py` for this spoke's chunking strategy.
+
 ## Master Schema & Codex References
 
 **`E:\0-Automated-Apps\MASTER_SCHEMA.md`** — Canonical cross-project database
